@@ -13,6 +13,7 @@
       :is-open="isOpen"
       @open-news="openNews"
       @read-news="readNews"
+      @unread-news="unreadNews"
     ></app-news>
   </div>
 </template>
@@ -42,8 +43,16 @@ export default {
       this.openRate++
     },
 
-    readNews () {
+    readNews (id) {
+      const index = this.news.findIndex(news => news.id === id)
+      this.news[index].wasRead = true
       this.readRate++
+    },
+
+    unreadNews (id) {
+      const news = this.news.find(news => news.id === id)
+      news.wasRead = false
+      this.readRate--
     }
   },
 

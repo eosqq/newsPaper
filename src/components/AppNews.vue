@@ -2,10 +2,11 @@
     <div class="card">
         <h3> {{ title }} </h3>
         <button class="btn" @click="open"> {{ isNewOpen ? 'Закрыть' : 'Открыть' }} </button>
+        <button class="btn danger" v-if="wasRead" @click="unread">Отметить непрочитанным</button>
         <div v-if="isNewOpen">
             <hr />
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet, dignissimos?</p>
-            <button class="btn primary" @click="read">Подробнее</button>
+            <button class="btn primary" v-if="!wasRead" @click="read">Подробнее</button>
         </div>
     </div>
 </template>
@@ -39,7 +40,7 @@ export default {
     }
   },
 
-  emits: ['open-news', 'read-news'],
+  emits: ['open-news', 'read-news', 'unread-news'],
 
   methods: {
     open () {
@@ -52,6 +53,10 @@ export default {
     read () {
       this.isNewOpen = false
       this.$emit('read-news', this.id)
+    },
+
+    unread () {
+      this.$emit('unread-news', this.id)
     }
   }
 }
